@@ -56,14 +56,14 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/images/2x
-    - assets/images/3x  
+    - assets/images/2x/
+    - assets/images/3x/ 
     - assets/fonts/
-    - assets/fonts/sen
+    - assets/fonts/sen/
 
   fonts:
     - family: Sen
       fonts:
-        - asset: assets/fonts/Sen-Regular.ttf
-        - asset: assets/fonts/Sen-Bold.ttf
+        - asset: assets/fonts/sen/Sen-Regular.ttf
+        - asset: assets/fonts/sen/Sen-Bold.ttf
           weight: 700
