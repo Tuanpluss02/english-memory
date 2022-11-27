@@ -4,7 +4,7 @@ import 'quote_model.dart';
 import 'quotes.dart';
 
 class Quotes {
-  static Quotes _instance = Quotes._internal();
+  static final Quotes _instance = Quotes._internal();
   static List<Quote> datas = [];
   Quotes._internal();
 

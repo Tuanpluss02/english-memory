@@ -35,7 +35,7 @@ class LandingPage extends StatelessWidget {
                             fontWeight: FontWeight.bold)),
                     Padding(
                       padding: const EdgeInsets.only(right: 110),
-                      child: Text('Qoutes',
+                      child: Text('Quotes',
                           textAlign: TextAlign.right,
                           style:
                               AppStyles.h4.copyWith(fontSize: 32, height: 0.6)),

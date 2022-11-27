@@ -7,4 +7,5 @@ class AppAssets {
   static final String leftArrow = imagePath + 'left_arrow.png';
   static final String menu = imagePath + 'menu.png';
   static final String rightArrow = imagePath + 'right_arrow.png';
+  static final String redHeart = imagePath + 'redheart.png';
 }

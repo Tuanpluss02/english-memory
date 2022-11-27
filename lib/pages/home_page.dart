@@ -81,6 +81,13 @@ class _HomePageState extends State<HomePage> {
     // getEnglishWord();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      onDrawerChanged: (isOpened) {
+        if (!isOpened) {
+          setState(() {
+            getEnglishWord();
+          });
+        }
+      },
       key: _globalKey,
       backgroundColor: AppColors.secondColor,
       appBar: AppBar(
@@ -161,7 +168,10 @@ class _HomePageState extends State<HomePage> {
                             Container(
                               padding: const EdgeInsets.all(15),
                               alignment: Alignment.topRight,
-                              child: Image.asset(AppAssets.heart),
+                              child: InkWell(
+                                child: Image.asset(AppAssets.heart),
+                                onTap: () {},
+                              ),
                             ),
                             Container(
                               alignment: Alignment.center,
@@ -269,11 +279,7 @@ class _HomePageState extends State<HomePage> {
                   style: AppStyles.h3.copyWith(color: AppColors.textColor),
                 ),
               ),
-              AppButton(
-                  label: 'Favorites',
-                  onTap: () {
-                    print('but1ok');
-                  }),
+              AppButton(label: 'Favorites', onTap: () {}),
               AppButton(
                   label: 'Your Control',
                   onTap: () {
