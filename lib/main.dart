@@ -1,9 +1,10 @@
+import 'package:english_memory/packages/quote/quote.dart';
 import 'package:english_memory/pages/landing_page.dart';
-// import 'package:english_memory/pages/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-void main() {
+void main() async {
+  await Quotes().getAll();
   runApp(const MyApp());
 }
 
@@ -21,9 +22,4 @@ class MyApp extends StatelessWidget {
       home: const LandingPage(),
     );
   }
-}
-
-class SystemChrome {
-  static void setEnabledSystemUIMode(SystemUiMode manual,
-      {required List overlays}) {}
 }
