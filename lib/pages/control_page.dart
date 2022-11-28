@@ -46,6 +46,7 @@ class _ControlPageState extends State<ControlPage> {
           onTap: () async {
             final prefs = await SharedPreferences.getInstance();
             await prefs.setInt(ShareKeys.counter, sliderValue.toInt());
+            // ignore: use_build_context_synchronously
             Navigator.pop(context);
           },
           child: Image.asset(AppAssets.leftArrow),

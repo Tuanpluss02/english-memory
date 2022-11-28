@@ -150,92 +150,102 @@ class _HomePageState extends State<HomePage> {
                   String author = words[index].author != ''
                       ? words[index].author!
                       : defaultAuthor;
+                  bool isFavo = words[index].isFavorite;
                   return Padding(
                     padding: const EdgeInsets.all(6),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          color: AppColors.primaryColor,
-                          borderRadius: BorderRadius.all(Radius.circular(40)),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black38,
-                                offset: Offset(3, 6),
-                                blurRadius: 6)
-                          ]),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(15),
-                              alignment: Alignment.topRight,
-                              child: InkWell(
-                                child: Image.asset(AppAssets.heart),
-                                onTap: () {},
+                    child: Material(
+                      borderRadius: const BorderRadius.all(Radius.circular(40)),
+                      elevation: 4,
+                      color: AppColors.primaryColor,
+                      child: InkWell(
+                        splashColor: Colors.black26,
+                        onDoubleTap: () {
+                          setState(() {
+                            words[index].isFavorite = !words[index].isFavorite;
+                          });
+                        },
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(40)),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(15),
+                                alignment: Alignment.topRight,
+                                child: InkWell(
+                                  child: Image.asset(
+                                    AppAssets.heart,
+                                    color: isFavo ? Colors.red : Colors.white,
+                                  ),
+                                  onTap: () {},
+                                ),
                               ),
-                            ),
-                            Container(
-                              alignment: Alignment.center,
-                              child: RichText(
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  text: TextSpan(
-                                      text: firstLetter,
-                                      // text: 'B',
-                                      style: const TextStyle(
-                                          fontSize: 100,
-                                          fontFamily: FontFamily.sen,
-                                          fontWeight: FontWeight.bold,
-                                          shadows: [
-                                            BoxShadow(
-                                                color: Colors.black38,
-                                                offset: Offset(3, 6),
-                                                blurRadius: 6)
-                                          ]),
-                                      children: [
-                                        TextSpan(
-                                          text: otherLetter,
-                                          // text: 'eautiful',
-                                          style: const TextStyle(
-                                              fontSize: 60,
-                                              fontFamily: FontFamily.sen,
-                                              fontWeight: FontWeight.bold,
-                                              shadows: [
-                                                BoxShadow(
+                              Container(
+                                alignment: Alignment.center,
+                                child: RichText(
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                        text: firstLetter,
+                                        // text: 'B',
+                                        style: const TextStyle(
+                                            fontSize: 100,
+                                            fontFamily: FontFamily.sen,
+                                            fontWeight: FontWeight.bold,
+                                            shadows: [
+                                              BoxShadow(
                                                   color: Colors.black38,
-                                                  offset: Offset(0, 0),
-                                                )
-                                              ]),
-                                        )
-                                      ])),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.all(20),
-                              padding: const EdgeInsets.all(40),
-                              alignment: Alignment.center,
-                              // child: Text(
-                              //   '"Think of all the beauty still left around you and be happy."',
-                              child: AutoSizeText(
-                                '"$quote"',
-                                maxFontSize: 26,
-                                overflow: TextOverflow.clip,
-                                // maxLines: 7,
-                                style: AppStyles.h3.copyWith(
-                                    // fontSize: (quote.length < 60) ? 32 : 30,
-                                    color: AppColors.textColor,
-                                    letterSpacing: 1),
+                                                  offset: Offset(3, 6),
+                                                  blurRadius: 6)
+                                            ]),
+                                        children: [
+                                          TextSpan(
+                                            text: otherLetter,
+                                            // text: 'eautiful',
+                                            style: TextStyle(
+                                                fontSize: otherLetter.length < 8
+                                                    ? 60
+                                                    : 50,
+                                                fontFamily: FontFamily.sen,
+                                                fontWeight: FontWeight.bold,
+                                                shadows: const [
+                                                  BoxShadow(
+                                                    color: Colors.black38,
+                                                    offset: Offset(0, 0),
+                                                  )
+                                                ]),
+                                          )
+                                        ])),
                               ),
-                            ),
-                            Container(
-                              alignment: Alignment.topRight,
-                              padding: const EdgeInsets.only(right: 30),
-                              // margin: const EdgeInsets.only(top: 20, right: 20),
-                              child: Text('"$author"',
-                                  style: AppStyles.h4.copyWith(
-                                    fontSize: 30,
-                                    color: AppColors.textColor,
-                                  )),
-                            )
-                          ]),
+                              Container(
+                                margin: const EdgeInsets.all(20),
+                                padding: const EdgeInsets.all(40),
+                                alignment: Alignment.center,
+                                // child: Text(
+                                //   '"Think of all the beauty still left around you and be happy."',
+                                child: AutoSizeText(
+                                  '"$quote"',
+                                  maxFontSize: 26,
+                                  overflow: TextOverflow.clip,
+                                  // maxLines: 7,
+                                  style: AppStyles.h3.copyWith(
+                                      // fontSize: (quote.length < 60) ? 32 : 30,
+                                      color: AppColors.textColor,
+                                      letterSpacing: 1),
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.topRight,
+                                padding: const EdgeInsets.only(right: 30),
+                                // margin: const EdgeInsets.only(top: 20, right: 20),
+                                child: Text('"$author"',
+                                    style: AppStyles.h4.copyWith(
+                                      fontSize: 30,
+                                      color: AppColors.textColor,
+                                    )),
+                              )
+                            ]),
+                      ),
                     ),
                   );
                 }),
@@ -298,14 +308,14 @@ class _HomePageState extends State<HomePage> {
       duration: const Duration(milliseconds: 300),
       curve: Curves.decelerate,
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      height: 12,
-      width: isActive ? size.width * 1 / 4 : 24,
+      height: 16,
+      width: isActive ? size.width * 1 / 4 : 26,
       decoration: BoxDecoration(
           color: isActive ? AppColors.lighBlue : AppColors.lightGrey,
           borderRadius: const BorderRadius.all(Radius.circular(12)),
           boxShadow: const [
             BoxShadow(
-                color: Colors.black38, offset: Offset(3, 8), blurRadius: 3)
+                color: Colors.black38, offset: Offset(2, 6), blurRadius: 3)
           ]),
     );
   }
@@ -321,7 +331,7 @@ class _HomePageState extends State<HomePage> {
         child: InkWell(
           onTap: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (_) => AllWordsPage(words: words)));
+                MaterialPageRoute(builder: (_) => const AllWordsPage()));
           },
           splashColor: AppColors.secondColor,
           borderRadius: const BorderRadius.all(Radius.circular(24)),
