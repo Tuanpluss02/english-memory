@@ -108,11 +108,12 @@ class _HomePageState extends State<HomePage> {
       ),
       // ignore: sized_box_for_whitespace
       body: Container(
-        margin: const EdgeInsets.all(30),
+        // margin: const EdgeInsets.all(30),
         width: double.infinity,
         child: Column(children: [
           // ignore: sized_box_for_whitespace
           Container(
+            margin: const EdgeInsets.only(top: 30, right: 30, left: 30),
             height: size.height * 1 / 10,
             alignment: Alignment.center,
             child: Text(
@@ -227,7 +228,7 @@ class _HomePageState extends State<HomePage> {
                                   '"$quote"',
                                   maxFontSize: 26,
                                   overflow: TextOverflow.clip,
-                                  // maxLines: 7,
+                                  maxLines: 5,
                                   style: AppStyles.h3.copyWith(
                                       // fontSize: (quote.length < 60) ? 32 : 30,
                                       color: AppColors.textColor,

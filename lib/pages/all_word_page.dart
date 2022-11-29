@@ -64,8 +64,7 @@ class _AllWordsPageState extends State<AllWordsPage> {
       body: ListView.builder(
           itemCount: words.length,
           itemBuilder: (context, index) {
-            // String word = words[index].word!.substring(0, 1);
-            // word.toUpperCase();
+            String word = words[index].word!.substring(0, 1);
             // word = word + words[index].word!.substring(1);
             bool isFavo = words[index].isFavorite;
             return Material(
@@ -83,7 +82,8 @@ class _AllWordsPageState extends State<AllWordsPage> {
                 child: ListTile(
                   contentPadding: const EdgeInsets.all(20),
                   title: Text(
-                    words[index].word!,
+                    word.toUpperCase() + words[index].word!.substring(1),
+                    // words[index].word!,
                     style: AppStyles.h3.copyWith(color: AppColors.textColor),
                   ),
                   subtitle: AutoSizeText(
