@@ -16,6 +16,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/generate_word.dart';
 import 'all_word_page.dart';
 
+late List<EnglishWord> allWords;
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -59,6 +61,10 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  getAllWords() {
+    allWords = nouns.map((e) => getQuotes(e)).toList();
+  }
+
   EnglishWord getQuotes(String word) {
     Quote? quote;
     quote = Quotes().getByWord(word);
@@ -72,6 +78,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _pageController = PageController(viewportFraction: 0.9);
+    getAllWords();
     super.initState();
     getEnglishWord();
   }
@@ -331,8 +338,9 @@ class _HomePageState extends State<HomePage> {
         borderRadius: const BorderRadius.all(Radius.circular(24)),
         child: InkWell(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const AllWordsPage()));
+            // Navigator.push(context,
+            //     MaterialPageRoute(builder: (_) => const AllWordsPage()));
+            Navigator.of(context).push(_createRoute());
           },
           splashColor: AppColors.secondColor,
           borderRadius: const BorderRadius.all(Radius.circular(24)),
@@ -347,4 +355,23 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) =>
+        AllWordsPage(allWords: allWords),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
 }
