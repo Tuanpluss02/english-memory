@@ -2,11 +2,33 @@ import 'package:english_memory/values/app_assets.dart';
 import 'package:english_memory/values/app_colors.dart';
 import 'package:english_memory/values/app_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/generate_word.dart';
 import 'home_page.dart';
 
-class LandingPage extends StatelessWidget {
+late List<EnglishWord> allWords;
+late List<String> favoWords;
+// ignore: prefer_typing_uninitialized_variables
+late SharedPreferences prefs;
+
+class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
+
+  @override
+  State<LandingPage> createState() => _LandingPageState();
+}
+
+class _LandingPageState extends State<LandingPage> {
+  getPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getPref();
+  }
 
   @override
   Widget build(BuildContext context) {

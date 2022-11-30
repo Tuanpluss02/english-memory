@@ -5,6 +5,9 @@ import 'package:english_memory/values/app_colors.dart';
 import 'package:english_memory/values/app_styles.dart';
 import 'package:flutter/material.dart';
 
+import '../values/share_keys.dart';
+import 'landing_page.dart';
+
 class AllWordsPage extends StatefulWidget {
   final List<EnglishWord> allWords;
   const AllWordsPage({super.key, required this.allWords});
@@ -38,7 +41,7 @@ class _AllWordsPageState extends State<AllWordsPage> {
           itemCount: widget.allWords.length,
           itemBuilder: (context, index) {
             String word = widget.allWords[index].word!.substring(0, 1);
-            // word = word + words[index].word!.substring(1);
+            // word = word + widget.allWords[index].word!.substring(1);
             bool isFavo = widget.allWords[index].isFavorite;
             return Material(
               borderRadius: const BorderRadius.all(Radius.circular(24)),
@@ -51,6 +54,11 @@ class _AllWordsPageState extends State<AllWordsPage> {
                   setState(() {
                     widget.allWords[index].isFavorite =
                         !widget.allWords[index].isFavorite;
+                    if (widget.allWords[index].isFavorite &&
+                        !favoWords.contains(widget.allWords[index].word)) {
+                      favoWords.add(widget.allWords[index].word!);
+                      prefs.setStringList(ShareKeys.favorite, favoWords);
+                    }
                   });
                 },
                 child: ListTile(
@@ -58,7 +66,7 @@ class _AllWordsPageState extends State<AllWordsPage> {
                   title: Text(
                     word.toUpperCase() +
                         widget.allWords[index].word!.substring(1),
-                    // words[index].word!,
+                    // widget.allWords[index].word!,
                     style: AppStyles.h3.copyWith(color: AppColors.textColor),
                   ),
                   subtitle: AutoSizeText(

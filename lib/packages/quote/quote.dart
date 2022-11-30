@@ -28,7 +28,7 @@ class Quotes {
   }
 
   int _getRandomIndex() {
-    return new Random.secure().nextInt(allquotes.length);
+    return Random.secure().nextInt(allquotes.length);
   }
 
   // //Returns first quote

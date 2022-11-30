@@ -11,12 +11,11 @@ import 'package:english_memory/values/share_keys.dart';
 import 'package:english_memory/widgets/app_button.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/generate_word.dart';
 import 'all_word_page.dart';
-
-late List<EnglishWord> allWords;
+import 'favorites_page.dart';
+import 'landing_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -48,8 +47,7 @@ class _HomePageState extends State<HomePage> {
     return rans;
   }
 
-  getEnglishWord() async {
-    final prefs = await SharedPreferences.getInstance();
+  getEnglishWord() {
     int len = prefs.getInt(ShareKeys.counter) ?? 5;
     List<String> result = [];
     List<int> newList = generateWords(len: len, max: nouns.length);
@@ -59,10 +57,6 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       words = result.map((e) => getQuotes(e)).toList();
     });
-  }
-
-  getAllWords() {
-    allWords = nouns.map((e) => getQuotes(e)).toList();
   }
 
   EnglishWord getQuotes(String word) {
@@ -75,12 +69,21 @@ class _HomePageState extends State<HomePage> {
         author: quote?.getAuthor() ?? '');
   }
 
+  getAllWords() {
+    allWords = nouns.map((e) => getQuotes(e)).toList();
+  }
+
+  getFavoriteWords() {
+    favoWords = prefs.getStringList(ShareKeys.favorite) ?? [];
+  }
+
   @override
   void initState() {
     _pageController = PageController(viewportFraction: 0.9);
     getAllWords();
     super.initState();
     getEnglishWord();
+    getFavoriteWords();
   }
 
   @override
@@ -101,10 +104,10 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: AppColors.secondColor,
         elevation: 0,
         centerTitle: true,
-        title: Text(
+        title: AutoSizeText(
           'English Word Today',
-          style:
-              AppStyles.h4.copyWith(color: AppColors.textColor, fontSize: 35),
+          style: AppStyles.h4.copyWith(color: AppColors.textColor),
+          maxLines: 1,
         ),
         leading: InkWell(
           onTap: () {
@@ -162,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                   return Padding(
                     padding: const EdgeInsets.all(6),
                     child: Material(
-                      borderRadius: const BorderRadius.all(Radius.circular(40)),
+                      borderRadius: const BorderRadius.all(Radius.circular(80)),
                       elevation: 4,
                       color: AppColors.primaryColor,
                       child: InkWell(
@@ -170,15 +173,21 @@ class _HomePageState extends State<HomePage> {
                         onDoubleTap: () {
                           setState(() {
                             words[index].isFavorite = !words[index].isFavorite;
+                            if (words[index].isFavorite &&
+                                !favoWords.contains(words[index].word)) {
+                              favoWords.add(words[index].word!);
+                              prefs.setStringList(
+                                  ShareKeys.favorite, favoWords);
+                            }
                           });
                         },
                         borderRadius:
-                            const BorderRadius.all(Radius.circular(40)),
+                            const BorderRadius.all(Radius.circular(80)),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                padding: const EdgeInsets.all(15),
+                                padding: const EdgeInsets.all(25),
                                 alignment: Alignment.topRight,
                                 child: InkWell(
                                   child: Image.asset(
@@ -196,11 +205,13 @@ class _HomePageState extends State<HomePage> {
                                     text: TextSpan(
                                         text: firstLetter,
                                         // text: 'B',
-                                        style: const TextStyle(
-                                            fontSize: 100,
+                                        style: TextStyle(
+                                            fontSize: otherLetter.length < 8
+                                                ? 100
+                                                : 90,
                                             fontFamily: FontFamily.sen,
                                             fontWeight: FontWeight.bold,
-                                            shadows: [
+                                            shadows: const [
                                               BoxShadow(
                                                   color: Colors.black38,
                                                   offset: Offset(3, 6),
@@ -246,11 +257,13 @@ class _HomePageState extends State<HomePage> {
                                 alignment: Alignment.topRight,
                                 padding: const EdgeInsets.only(right: 30),
                                 // margin: const EdgeInsets.only(top: 20, right: 20),
-                                child: Text('"$author"',
-                                    style: AppStyles.h4.copyWith(
-                                      fontSize: 30,
-                                      color: AppColors.textColor,
-                                    )),
+                                child: AutoSizeText(
+                                  '"$author"',
+                                  style: AppStyles.h4.copyWith(
+                                    color: AppColors.textColor,
+                                  ),
+                                  maxLines: 1,
+                                ),
                               )
                             ]),
                       ),
@@ -297,7 +310,15 @@ class _HomePageState extends State<HomePage> {
                   style: AppStyles.h3.copyWith(color: AppColors.textColor),
                 ),
               ),
-              AppButton(label: 'Favorites', onTap: () {}),
+              AppButton(
+                  label: 'Favorites',
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) =>
+                                FavoriteWords(favoWords: favoWords)));
+                  }),
               AppButton(
                   label: 'Your Control',
                   onTap: () {
@@ -340,7 +361,7 @@ class _HomePageState extends State<HomePage> {
           onTap: () {
             // Navigator.push(context,
             //     MaterialPageRoute(builder: (_) => const AllWordsPage()));
-            Navigator.of(context).push(_createRoute());
+            Navigator.of(context).push(_routeToAllWords());
           },
           splashColor: AppColors.secondColor,
           borderRadius: const BorderRadius.all(Radius.circular(24)),
@@ -357,7 +378,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-Route _createRoute() {
+Route _routeToAllWords() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>
         AllWordsPage(allWords: allWords),

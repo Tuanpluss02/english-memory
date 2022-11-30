@@ -1,10 +1,11 @@
-import 'package:english_memory/pages/home_page.dart';
 import 'package:english_memory/values/app_assets.dart';
 import 'package:english_memory/values/app_colors.dart';
 import 'package:english_memory/values/app_styles.dart';
 import 'package:english_memory/values/share_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'landing_page.dart';
 
 class ControlPage extends StatefulWidget {
   const ControlPage({super.key});
@@ -44,7 +45,6 @@ class _ControlPageState extends State<ControlPage> {
         ),
         leading: InkWell(
           onTap: () async {
-            final prefs = await SharedPreferences.getInstance();
             await prefs.setInt(ShareKeys.counter, sliderValue.toInt());
             // ignore: use_build_context_synchronously
             Navigator.pop(context);
