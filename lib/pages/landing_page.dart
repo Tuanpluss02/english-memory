@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:english_memory/values/app_assets.dart';
 import 'package:english_memory/values/app_colors.dart';
 import 'package:english_memory/values/app_styles.dart';
@@ -48,21 +49,32 @@ class _LandingPageState extends State<LandingPage> {
                 ),
               ),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text('English',
-                        style: AppStyles.h2.copyWith(
-                            color: AppColors.blackGrey,
-                            fontWeight: FontWeight.bold)),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 110),
-                      child: Text('Quotes',
-                          textAlign: TextAlign.right,
-                          style:
-                              AppStyles.h4.copyWith(fontSize: 32, height: 0.6)),
-                    )
-                  ],
+                // flex: 2,
+                child: Material(
+                  borderRadius: const BorderRadius.all(Radius.circular(30)),
+                  color: AppColors.secondColor,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('English',
+                          style: AppStyles.h2.copyWith(
+                              color: AppColors.blackGrey,
+                              fontWeight: FontWeight.bold)),
+                      Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.only(left: 30),
+                        // width: (1 / 2) * MediaQuery.of(context).size.width,
+                        child: AutoSizeText('Memory',
+                            textAlign: TextAlign.right,
+                            style: AppStyles.h4.copyWith(
+                                fontSize: 32,
+                                height: 0.6,
+                                color: AppColors.textColor,
+                                fontWeight: FontWeight.bold)),
+                      )
+                    ],
+                  ),
                 ),
               ),
               Expanded(

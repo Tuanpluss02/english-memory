@@ -294,6 +294,7 @@ class _HomePageState extends State<HomePage> {
             getEnglishWord();
           });
         },
+        tooltip: 'Refresh',
         backgroundColor: AppColors.primaryColor,
         child: Image.asset(AppAssets.exchange),
       ),
